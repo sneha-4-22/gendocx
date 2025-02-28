@@ -1,6 +1,6 @@
 # GenDocX
 
-![GenDocX Logo](icon.png)
+
 
 ## Next-Generation README Automation for Developers
 

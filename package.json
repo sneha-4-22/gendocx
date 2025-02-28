@@ -1,0 +1,57 @@
+{
+  "name": "gendocx",
+  "publisher": "Sneha",
+  "displayName": "GenDocX",
+  "description": "Next-gen README automation ",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.97.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gendocx.generateReadme",
+        "title": "Generate README with GenDocX"
+      },
+      {
+        "command": "gendocx.configureApiKey",
+        "title": "Configure GenDocX API Key"
+      }
+    ],
+    "configuration": {
+      "title": "GenDocX",
+      "properties": {
+        "gendocx.mindsApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "MindsDB API Key for README generation"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.97.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.19.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "gendocx": "file:",
+    "openai": "^4.85.4"
+  }
+}

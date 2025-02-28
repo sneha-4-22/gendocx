@@ -2,8 +2,8 @@
   "name": "gendocx",
   "publisher": "Sneha",
   "displayName": "GenDocX",
-  "description": "Next-gen README automation ",
-  "version": "0.0.1",
+  "description": "Next-gen README automation",
+  "version": "0.0.2",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.97.0"
@@ -16,7 +16,9 @@
     "Other"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onCommand:gendocx.generateReadme",
+    "onCommand:gendocx.configureApiKey"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -30,10 +32,26 @@
         "title": "Configure GenDocX API Key"
       }
     ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "gendocx.generateReadme",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "gendocx.generateReadme"
+        },
+        {
+          "command": "gendocx.configureApiKey"
+        }
+      ]
+    },
     "configuration": {
       "title": "GenDocX",
       "properties": {
-        "gendocx.mindsApiKey": {
+        "gendocx.mindsdbApiKey": {
           "type": "string",
           "default": "",
           "description": "MindsDB API Key for README generation"

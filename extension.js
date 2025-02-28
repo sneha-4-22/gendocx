@@ -358,89 +358,45 @@ async function generateProjectStructure(rootPath) {
   return structure;
 }
 
+
 function activate(context) {
+  
+  console.log('GenDocX extension is activating...');
+  
+  // Register commands with explicit logging
+  console.log('Registering gendocx.generateReadme command...');
   let disposable = vscode.commands.registerCommand(
     'gendocx.generateReadme',
     async () => {
+      console.log('gendocx.generateReadme command executed');
       try {
+        // Your existing code for this command goes here
         const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
         if (!rootPath) {
           throw new Error('No active workspace found');
         }
         
-        const config = vscode.workspace.getConfiguration('gendocx');
-        let apiKey = config.get('mindsdbApiKey');
+        // Rest of your existing command implementation...
         
-        if (!apiKey) {
-          apiKey = await vscode.window.showInputBox({
-            prompt: "Enter your  API key (you can save this in settings later)",
-            password: true
-          });
-          
-          if (!apiKey) {
-            vscode.window.showWarningMessage('MindsDB API key is required to generate README');
-            return;
-          }
-        }
-
-        await vscode.window.withProgress(
-          {
-            location: vscode.ProgressLocation.Notification,
-            title: 'Analyzing project and generating README...',
-            cancellable: false,
-          },
-          async (progress) => {
-            progress.report({ message: 'Collecting project information...' });
-            
-            progress.report({ message: 'Analyzing codebase with AI...' });
-            const readmeContent = await generateReadmeWithMindsDB(rootPath, apiKey);
-            
-            const readmePath = path.join(rootPath, 'README.md');
-            
-            try {
-              await fs.access(readmePath);
-              const overwrite = await vscode.window.showQuickPick(['Yes', 'No'], {
-                placeHolder: 'README.md already exists. Overwrite?'
-              });
-              
-              if (overwrite !== 'Yes') {
-                vscode.window.showInformationMessage('README generation cancelled');
-                return;
-              }
-            } catch {}
-            
-            await fs.writeFile(readmePath, readmeContent.trim());
-            const doc = await vscode.workspace.openTextDocument(readmePath);
-            await vscode.window.showTextDocument(doc);
-            
-            vscode.window.showInformationMessage('README.md generated successfully!');
-          }
-        );
       } catch (error) {
+        console.error('Error in generateReadme command:', error);
         vscode.window.showErrorMessage(`Error: ${error.message}`);
       }
     }
   );
 
+  console.log('Registering gendocx.configureApiKey command...');
   let configDisposable = vscode.commands.registerCommand(
     'gendocx.configureApiKey',
     async () => {
-      const apiKey = await vscode.window.showInputBox({
-        prompt: "Enter your MindsDB API key",
-        password: true
-      });
-      
-      if (apiKey) {
-        const config = vscode.workspace.getConfiguration('gendocx');
-        await config.update('mindsdbApiKey', apiKey, true);
-        vscode.window.showInformationMessage('MindsDB API key saved!');
-      }
+      console.log('gendocx.configureApiKey command executed');
+      // Your existing configureApiKey command code goes here
     }
   );
 
   context.subscriptions.push(disposable, configDisposable);
+  console.log('GenDocX extension activation completed successfully');
 }
-
 function deactivate() {}
 
 module.exports = {
